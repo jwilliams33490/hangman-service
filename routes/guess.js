@@ -17,6 +17,7 @@ function init(gameData){
         res.status(400).send(character + " was already guessed ")
     } else{
         var success = isLetterInWord(character)
+        updateTargetWord ()
         isGameOver()  
         //res.send('game state ' + success + ' ' + JSON.stringify(character) + '' + JSON.stringify(gameData));
         res.send(gameData);
@@ -30,6 +31,19 @@ function init(gameData){
 }
 
 
+    function updateTargetWord(){
+        var maskedWord = ""
+        for (var i = 0, len = gameData.targetWord.length; i < len; i++) {
+            //console.log(gameData.targetWord[i]);
+            if (gameData.correctLetters.includes(gameData.targetWord[i])){
+                maskedWord = maskedWord + gameData.targetWord[i]             
+            }else{
+                maskedWord = maskedWord + "-"
+            }
+        }
+        gameData.maskedWord = maskedWord
+    }
+    
     function isLetterInWord(character){
         var n = gameData.targetWord.indexOf(character)
         if (n >= 0){
